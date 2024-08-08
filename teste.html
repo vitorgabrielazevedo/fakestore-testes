@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Elements com JSON Server</title>
+
+    <style>
+      #products-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        width: 300px;
+        border: 1px solid red;
+        padding: 10px;
+        margin: 10px;
+      }
+
+      .card img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="products-container"></div>
+
+    <script>
+      class Card extends HTMLElement {
+        constructor() {
+          super();
+        }
+
+        connectedCallback() {
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `
+            <img src="${this.getAttribute(
+              "image"
+            )}" class="card-img-top" alt="${this.getAttribute("title")}" >
+            <div class="card-body">
+              <h5 class="card-title">${this.getAttribute("title")}</h5>
+              <h3 class="card-text">${this.getAttribute("price")}</h3>
+              <a href="carrinho.html" class="btn btn-success">Comprar</a>
+            </div>
+          `;
+
+          this.appendChild(card);
+        }
+      }
+
+      customElements.define("card-item", Card);
+
+      fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((json) => render(json));
+
+      function render(products) {
+        const container = document.querySelector("#products-container");
+
+        for (let i = 0; i < products.length; i++) {
+          const p = document.createElement("card-item");
+          p.setAttribute("image", products[i].image);
+          p.setAttribute("title", products[i].title);
+          p.setAttribute("price", products[i].price);
+          container.appendChild(p);
+        }
+      }
+    </script>
+  </body>
+</html>
