@@ -55,7 +55,7 @@
 
       customElements.define("product-card", Product);
 
-      fetch("https://fakestoreapi.com/products")
+      fetch("http://localhost:3000/products")
         .then((res) => res.json())
         .then((json) => renderizar(json));
 
