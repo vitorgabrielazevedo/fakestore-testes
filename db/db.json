@@ -2,7 +2,7 @@
   "products": [
     {
       "id": 1,
-      "image": "https://picsum.photos/200/300",
+      "image": "img/actividad 04.jfif",
       "title": "Smartphone",
       "price": "R$ 1000,00"
     },
